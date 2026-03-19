@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SketchMyMood-2</title>
+    <!-- Links css -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+     <!-- Iconos -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+  </head>
+  <body>
+   
+<header class="header-container">
+  <div class="logo">
+    <span class="material-symbols-outlined" translate="no">palette</span>
+    <h1>SketchMyMood-2</h1>
+  </div>
+  
+  <div class="header-right">
+    <div id="ratedLimit" class="limit-badge">
+      REMAINING 4 ATTEMPTS
+    </div>
+    
+    <!-- ⏰ NEW: Waiting timer (hidden by default) -->
+    <div id="countdownTimer" class="timer-box" style="display: none;">
+      <div class="timer-display">
+        <span class="timer-unit" id="timerHours">00</span>
+        <span class="timer-separator">:</span>
+        <span class="timer-unit" id="timerMinutes">00</span>
+        <span class="timer-separator">:</span>
+        <span class="timer-unit" id="timerSeconds">00</span>
+      </div>
+    </div>
+  </div>
+</header>
+   
+<section class="hero-section">
+  <h2 class="main-title">
+    Paint your <br>
+    <span class="italic-underline">emotions</span>
+  </h2>
+  <p class="description">
+    An AI-powered sanctuary where your feelings are transformed into visual masterpieces.
+  </p>
+</section>
+
+<section class="main-section">
+<div class="card">
+  <div class="group-container">
+    <div class="label-header">
+      <span class="material-symbols-outlined" translate="no">layers</span>
+      <span>ARTISTIC MOVEMENT</span>
+    </div>
+    <div class="chips-grid styles-artistic">
+      <button class="chip active">🎨 Abstract</button>
+      <button class="chip">🌆 Cyberpunk</button>
+      <button class="chip">💧 Watercolor</button>
+      <button class="chip">🏛️ Renaissance</button>
+      <button class="chip">✏️ Charcoal</button>
+      <button class="chip">👁️ Surrealism</button>
+    </div>
+  </div>
+
+  <div class="group-container">
+    <div class="label-header">
+      <span class="material-symbols-outlined" translate="no">favorite</span>
+      <span>EMOTIONAL ANCHORS</span>
+    </div>
+    <div class="chips-grid emotional-styles">
+      <button class="chip2 active-2btn">Calm</button>
+      <button class="chip2">Energetic</button>
+      <button class="chip2">Melancholic</button>
+      <button class="chip2">Dreamy</button>
+      <button class="chip2">Anxious</button>
+      <button class="chip2">Joyful</button>
+      <button class="chip2">Mysterious</button>
+      <button class="chip2">Lonely</button>
+    </div>
+  </div>
+
+  <div class="textarea-zone">
+    <textarea placeholder="You’ve selected a mood and style — now describe your feeling…" id="textareaPrompt"></textarea>
+  </div>
+
+  <button id="mainGenerateAction" class="generate-btn">
+    <span class="material-symbols-outlined" translate="no">auto_awesome</span>
+    Generate sketch
+  </button>
+</div>
+</section>
+
+<!-- IMAGE GENERATOR MODULE (Hidden by default) -->
+<section id="generatorSection" class="generator-section" style="display: none;">
+  <!-- Main 1:1 container -->
+  <div class="image-container">
+    <!-- The generated image -->
+    <img id="generatedImage" class="generated-image" src="" alt="Generated sketch">
+    
+    <!-- GLASS layer with animated shines -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="glass-effect"></div>
+      <div class="shimmer"></div>
+      <div class="loading-content">
+        <span class="material-symbols-outlined" translate="no">auto_awesome</span>
+        <span>Processing your emotion...</span>
+      </div>
+    </div>
+
+    <!-- ERROR layer (hidden by default) -->
+    <div id="errorOverlay" class="error-overlay" style="display: none;">
+      <div class="glass-effect error-glass"></div>
+      <div class="error-content">
+        <span class="material-symbols-outlined" translate="no">warning</span>
+        <span class="error-title">Oops, something went wrong</span>
+        <span class="error-message">The process has failed. Please try again</span>
+        <button id="retryButton" class="retry-btn">
+          <span class="material-symbols-outlined" translate="no">refresh</span>
+          Retry
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div id="replacementOption" class="option-selection" style="display: none;">
+    <h4>Add image to gallery</h4> 
+    <div class="option-box">
+      <button class="option-btn" id="yes-reemplaced">
+        <span class="material-symbols-outlined" translate="no">thumb_up</span>
+      </button>
+      <button class="option-btn" id="no-reemplaced">
+        <span class="material-symbols-outlined" translate="no">thumb_down</span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Status bar (optional, UX improvement) -->
+  <div class="generation-status">
+    <span class="status-text">Transforming feelings into line art...</span>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="gallery-header">
+    <p class="overline">THE ARCHIVE</p>
+    <h2 class="gallery-title">Gallery of <i>mood</i> states</h2>
+  </div>
+
+  <div class="gallery-grid">
+    <!-- CARD 1 -->
+    <div id="card-1" class="gallery-card">
+      <!-- Placeholder (visible when no image) -->
+      <div class="placeholder-content">
+        <span class="material-symbols-outlined" translate="no">palette</span>
+        <p>SILENCE SPEAKS</p>
+      </div>
+      
+      <!-- Dynamic content (visible when image exists) -->
+      <div class="dynamic-content hidden">
+        <!-- Image container with action overlay -->
+        <div class="image-wrapper">
+          <img id="img-1" class="card-image" src="" alt="Mood state 1">
+          
+          <!-- Overlay with buttons (appears on hover) -->
+          <div class="image-overlay">
+            <button class="action-btn download-btn" title="Download image">
+              <span class="material-symbols-outlined" translate="no">download</span>
+            </button>
+            <button class="action-btn share-btn" title="Share">
+              <span class="material-symbols-outlined" translate="no">share</span>
+            </button>
+            <button class="action-btn delete-btn" title="Delete">
+              <span class="material-symbols-outlined" translate="no">delete</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Card information (below the image) -->
+        <div class="card-info">
+          <h3 id="title-1" class="card-title"></h3>
+          
+          <!-- Prompt area with copy button -->
+          <div class="prompt-container">
+            <p id="prompt-1" class="card-prompt"></p>
+            <button class="copy-prompt-btn" title="Copy prompt">
+              <span class="material-symbols-outlined" translate="no">content_copy</span>
+            </button>
+          </div>
+          
+          <!-- Emotional color palette -->
+          <div id="palette-1" class="color-palette hidden">
+            <div class="color-swatch" style="background-color: #FFD700;"></div>
+            <div class="color-swatch" style="background-color: #98FB98;"></div>
+            <div class="color-swatch" style="background-color: #FF69B4;"></div>
+            <div class="color-swatch" style="background-color: #ADD8E6;"></div>
+            <div class="color-swatch" style="background-color: #90EE90;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div id="card-2" class="gallery-card">
+      <!-- Placeholder -->
+      <div class="placeholder-content">
+        <span class="material-symbols-outlined" translate="no">palette</span>
+        <p>SPACE FOR THE SOUL</p>
+      </div>
+      
+      <!-- Dynamic content -->
+      <div class="dynamic-content hidden">
+        <div class="image-wrapper">
+          <img id="img-2" class="card-image" src="" alt="Mood state 2">
+          
+          <div class="image-overlay">
+            <button class="action-btn download-btn" title="Download image">
+              <span class="material-symbols-outlined" translate="no">download</span>
+            </button>
+            <button class="action-btn share-btn" title="Share">
+              <span class="material-symbols-outlined" translate="no">share</span>
+            </button>
+            <button class="action-btn delete-btn" title="Delete">
+              <span class="material-symbols-outlined" translate="no">delete</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="card-info">
+          <h3 id="title-2" class="card-title"></h3>
+          
+          <div class="prompt-container">
+            <p id="prompt-2" class="card-prompt"></p>
+            <button class="copy-prompt-btn" title="Copy prompt">
+              <span class="material-symbols-outlined" translate="no">content_copy</span>
+            </button>
+          </div>
+          
+          <div id="palette-2" class="color-palette hidden">
+            <div class="color-swatch" style="background-color: #FFD700;"></div>
+            <div class="color-swatch" style="background-color: #98FB98;"></div>
+            <div class="color-swatch" style="background-color: #FF69B4;"></div>
+            <div class="color-swatch" style="background-color: #ADD8E6;"></div>
+            <div class="color-swatch" style="background-color: #90EE90;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="experience-section">
+  <p class="overline reveal">THE EXPERIENCE</p>
+  <h2 class="experience-title reveal">A dialogue between <br> <i>emotion and AI</i></h2>
+
+  <div class="experience-grid">
+    <div class="exp-card reveal">
+      <div class="exp-icon-box">
+        <span class="material-symbols-outlined" translate="no">format_quote</span>
+      </div>
+      <div class="exp-text">
+        <h3>Poetic refinement</h3>
+        <p>Our system doesn't just generate images; it understands context and transforms your mood into complex poetic suggestions.</p>
+      </div>
+    </div>
+
+    <div class="exp-card reveal">
+      <div class="exp-icon-box">
+        <span class="material-symbols-outlined" translate="no">palette</span>
+      </div>
+      <div class="exp-text">
+        <h3>Emotional DNA</h3>
+        <p>Each sketch extracts a unique color palette: the visual fingerprint of your emotional state at this moment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quotes-section">
+  <div class="quotes-container">
+    <div class="quote-card active" id="q-slide-0">
+      <div class="quote-subcard">
+        <svg class="quote-bg-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M20,40 Q20,20 40,20 M20,40 Q20,60 40,60 M60,40 Q60,20 80,20 M60,40 Q60,60 80,60" fill="none" stroke="currentColor" stroke-width="8" opacity="0.1"/>
+        </svg>
+        
+        <p class="quote-text">"Go and give importance to that universal insignificance of time and space, in the solar system, that they call life."</p>
+        <span class="quote-author">- Canserbero</span>
+      </div>
+    </div>
+
+    <div class="quote-card" id="q-slide-1">
+      <div class="quote-subcard">
+        <svg class="quote-bg-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+           <path d="M20,40 Q20,20 40,20 M20,40 Q20,60 40,60 M60,40 Q60,20 80,20 M60,40 Q60,60 80,60" fill="none" stroke="currentColor" stroke-width="8" opacity="0.1"/>
+        </svg>
+        <p class="quote-text">"Art is the lie that enables us to realize the truth."</p>
+        <span class="quote-author">— Pedro Miguel</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-controls">
+    <button id="prevQuote" class="q-btn">
+      <span class="material-symbols-outlined" translate="no">chevron_left</span>
+    </button>
+    <button id="nextQuote" class="q-btn">
+      <span class="material-symbols-outlined" translate="no">chevron_right</span>
+    </button>
+  </div>
+</section>
+
+<!-- FOOTER SECTION -->
+<footer class="main-footer">
+  <h4 class="quote-footer"><span class="material-symbols-outlined" translate="none">palette</span>Every artist was first an amateur.</h4> 
+  <div class="copyright-section">
+    <p>© 2026 Wanda Corporation, LLC. All rights reserved. SketchMyMood · Powered by <a href="https://pollinations.ai/" target="_blank">Pollinations.ai</a></p>
+  </div>
+</footer>
+<!-- Modular scripts -->
+<script src="js/api-config.js"></script>
+<script src="js/system-prompt.js"></script>
+<script src="js/prompt-refiner.js"></script>
+<script src="js/script.js"></script>
+<script src="js/ui.js"></script>
+  </body>
+</html>
