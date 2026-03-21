@@ -142,7 +142,7 @@
         function updateAttemptsBadge(DOM, STATE) {
             if (DOM.ratedLimit) {
                 if (STATE.attempts > 0) {
-                    DOM.ratedLimit.textContent = `QUEDAN ${STATE.attempts} INTENTOS`;
+                    DOM.ratedLimit.textContent = `REMAINING ${STATE.attempts} ATTEMPTS`;
                 } else {
                     DOM.ratedLimit.textContent = 'SIN INTENTOS - ESPERA 2H';
                 }

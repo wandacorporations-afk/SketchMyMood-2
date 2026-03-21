@@ -140,8 +140,8 @@ body {
 /* --- HERO SECTION --- */
 .hero-section {
   text-align: center;
-  max-width: 500px;
-  padding: 0.85rem 1rem;
+  max-width: 800px;
+  padding: 0.90rem 1.8rem;
 }
 
 .main-title {
@@ -179,7 +179,7 @@ body {
   }
 
   .hero-section {
-    max-width: 700px;
+    max-width: 800px;
   }
 
   .main-title {
@@ -693,7 +693,7 @@ textarea::placeholder {
 /* ===== RESPONSIVE ===== */
 @media (min-width: 768px) {
   .generator-section {
-    max-width: 700px;
+    max-width: 800px;
   }
   
   .loading-content .material-symbols-outlined {
@@ -1182,7 +1182,7 @@ textarea::placeholder {
     border-radius: 28px;
     padding: 40px;
     width: 100%;
-    max-width: 500px;
+    max-width: 800px;
     position: relative;
     display: flex;
     flex-direction: column;
